@@ -1,37 +1,35 @@
 <template>
-	<form class="m-4" v-on:submit.prevent="addNote()">
-		<div class="mb-3">
-			<label for="exampleFormControlInput1" class="form-label">Tytuł notatki</label>
-			<input type="text" class="form-control" id="exampleFormControlInput1" v-model="newNoteName">
-			</div>
-			<div class="mb-3">
-				<label for="exampleFormControlTextarea1" class="form-label">Treść</label>
-				<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="newNoteContent"></textarea>
-			</div>
-			<button type="submit" class="btn btn-primary w-100">
-				<i class="bi bi-save"></i>
-				Dodaj notatkę
-			</button>
-		</form>
-	</template>
-	
-	<script>
-		export default {
-		components: {},
-		data: function (){
-			return {
-			newNoteName: null,
-			newNoteContent: null,
-			}
-		},
-		methods: {
-			addNote: function (){
-				var date = (new Date()).toLocaleString("pl-Pl");
-				var note = { name: this.newNoteName, content: this.newNoteContent, createdAt: date };
-				this.$emit("on-add-note", note);
-				this.newNoteContent = null;
-				this.newNoteName = null;
-				}
-			},
-		}
-	</script>	
+    <form v-on:submit.prevent="onSubmit()">
+        <div class="form-group my-2">
+            <label for="formName">Nazwa</label>
+            <input v-model="name" type="text" class="form-control rounded-0" id="formName" placeholder="...">
+        </div>
+        <div class="form-group my-2">
+            <label for="formContent">Zawartość</label>
+            <textarea v-model="content" type="text" class="form-control rounded-0" rows="10" id="formContent" placeholder="..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-secondary w-100 mb-5 rounded-0">
+            <i class="bi-save pe-2"></i>Dodaj notatkę
+        </button>
+    </form>
+</template>
+
+<script>
+export default {
+    props: [],
+    data: function () {
+      return {
+        name: null,
+        content: null,
+      }
+    },
+    methods: {
+        onSubmit: function (){
+            const note = { name: this.name, content: this.content };
+            this.name = null;
+            this.content = null;
+            this.$emit('note-add', note);
+        }
+    }
+}
+</script>
